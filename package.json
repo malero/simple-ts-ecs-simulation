@@ -1,0 +1,44 @@
+{
+  "name": "simple-ts-ecs-simulation",
+  "version": "0.1.0",
+  "description": "A simple ECS based Simulation framework",
+  "keywords": [
+    "typescript",
+    "ECS",
+    "simulation"
+  ],
+  "main": "./dist/index.js",
+  "scripts": {
+    "prebuild": "rm -rf ./dist/",
+    "build": "tsc",
+    "clean": "rm -rf ./dist/",
+    "test": "karma start --single-run",
+    "posttest": "codecov",
+    "sample": "rm -rf sample/dist/ && tsc -p sample/ && node sample/dist/sample/index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "simple-ts-event-dispatcher": "^0.1.3",
+    "simple-ts-message-list": "^0.1.3",
+    "simple-ts-models": "^0.1.3"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.6.10",
+    "codecov": "^3.8.1",
+    "jasmine": "^3.7.0",
+    "karma": "^6.3.2",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.3",
+    "karma-jasmine": "^4.0.1",
+    "karma-typescript": "^5.5.1",
+    "typescript": "^4.2.4"
+  },
+  "homepage": "https://github.com/malero/simple-ts-ecs-simulation",
+  "git": "https://github.com/malero/simple-ts-ecs-simulation",
+  "typings": "./dist/index.d.ts",
+  "author": "Malero <contact@maleero.com> (https://www.maleero.com/)",
+  "bugs": {
+    "url": "https://github.com/malero/simple-ts-ecs-simulation/issues",
+    "email": "contact@maleero.com"
+  }
+}
