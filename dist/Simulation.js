@@ -232,7 +232,13 @@ var Simulation = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
-    Simulation.prototype.playerConnected = function (id) {
+    Simulation.prototype.getEntitiesByType = function (type) {
+        var entities = [];
+        for (var uid in this.entities) {
+            if (this.entities[uid] instanceof type)
+                entities.push(this.entities[uid]);
+        }
+        return entities;
     };
     Simulation.EchoedEvents = [
         ESimulationEventType_1.ESimulationEventType.INPUT,

@@ -47,5 +47,5 @@ export declare class Simulation extends EventDispatcher {
     getFrameDifference(keyFrame0: number, frame0: number, keyFrame1: number, frame1: number): number | null;
     get keyFrame(): number;
     get frame(): number;
-    playerConnected(id: number): void;
+    getEntitiesByType(type: any): Entity[];
 }

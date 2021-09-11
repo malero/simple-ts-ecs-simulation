@@ -241,7 +241,13 @@ export class Simulation extends EventDispatcher {
         return this._frame;
     }
 
-    public playerConnected(id: number) {
+    public getEntitiesByType(type: any): Entity[] {
+        const entities = [];
+        for (const uid in this.entities) {
+            if (this.entities[uid] instanceof type)
+                entities.push(this.entities[uid]);
 
+        }
+        return entities;
     }
 }
