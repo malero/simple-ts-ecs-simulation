@@ -1,14 +1,17 @@
 import {Component} from "./Component";
 import {TEventData} from "../IEvent";
 import {ModelData} from "simple-ts-models/dist/ModelAbstract";
+import {uuid} from "../utils";
 
 export class Entity {
     public static readonly entityRegistry: {[key: string]: any} = {};
+    public readonly entityType: string | null = null;
     public readonly uid: string;
     private readonly components: Component[] = [];
 
-    constructor(uid: string) {
+    constructor(uid: string, entityType: string) {
         this.uid = uid;
+        this.entityType = entityType;
     }
 
     addComponent(component: Component) {
@@ -43,7 +46,16 @@ export class Entity {
 
     public static register(name: string, setup: (() => void) | null = null) {
         return function(target: any, _key: string | null = null) {
+            target.entityType = name;
             Entity.entityRegistry[name] = target;
         }
+    }
+
+    public static constructEntity<T extends Entity = Entity>(name: string, uid: string | null = null): T {
+        if (uid === null)
+            uid = uuid();
+
+        const cls = Entity.entityRegistry[name];
+        return new cls(uid, name);
     }
 }

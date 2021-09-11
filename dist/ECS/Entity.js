@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
+var utils_1 = require("../utils");
 var Entity = /** @class */ (function () {
-    function Entity(uid) {
+    function Entity(uid, entityType) {
+        this.entityType = null;
         this.components = [];
         this.uid = uid;
+        this.entityType = entityType;
     }
     Entity.prototype.addComponent = function (component) {
         this.components.push(component);
@@ -38,8 +41,16 @@ var Entity = /** @class */ (function () {
         if (setup === void 0) { setup = null; }
         return function (target, _key) {
             if (_key === void 0) { _key = null; }
+            target.entityType = name;
             Entity.entityRegistry[name] = target;
         };
+    };
+    Entity.constructEntity = function (name, uid) {
+        if (uid === void 0) { uid = null; }
+        if (uid === null)
+            uid = (0, utils_1.uuid)();
+        var cls = Entity.entityRegistry[name];
+        return new cls(uid, name);
     };
     Entity.entityRegistry = {};
     return Entity;
