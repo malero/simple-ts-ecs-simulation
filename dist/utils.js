@@ -36,6 +36,16 @@ var Vector2D = /** @class */ (function () {
     Vector2D.prototype.normalize = function () {
         return this.divide(this.magnitude());
     };
+    Object.defineProperty(Vector2D.prototype, "length", {
+        get: function () {
+            return this.distance(new Vector2D(0, 0));
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Vector2D.prototype.distance = function (vector) {
+        return Math.abs(Math.sqrt(Math.pow((this.x - vector.x), 2) + Math.pow((this.y - vector.y), 2)));
+    };
     return Vector2D;
 }());
 exports.Vector2D = Vector2D;

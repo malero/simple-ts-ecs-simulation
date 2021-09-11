@@ -9,4 +9,6 @@ export declare class Vector2D {
     magnitude(): number;
     divide(scalar: number): Vector2D;
     normalize(): Vector2D;
+    get length(): number;
+    distance(vector: Vector2D): number;
 }

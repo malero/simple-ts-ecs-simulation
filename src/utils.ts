@@ -41,4 +41,12 @@ export class Vector2D {
     public normalize() {
         return this.divide(this.magnitude());
     }
+
+    public get length(): number {
+        return this.distance(new Vector2D(0, 0));
+    }
+
+    public distance(vector: Vector2D): number {
+        return Math.abs(Math.sqrt((this.x - vector.x) ** 2 + (this.y - vector.y) ** 2));
+    }
 }
