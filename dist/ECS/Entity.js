@@ -41,7 +41,6 @@ var Entity = /** @class */ (function () {
         if (setup === void 0) { setup = null; }
         return function (target, _key) {
             if (_key === void 0) { _key = null; }
-            target.entityType = name;
             Entity.entityRegistry[name] = target;
         };
     };

@@ -46,7 +46,6 @@ export class Entity {
 
     public static register(name: string, setup: (() => void) | null = null) {
         return function(target: any, _key: string | null = null) {
-            target.entityType = name;
             Entity.entityRegistry[name] = target;
         }
     }
