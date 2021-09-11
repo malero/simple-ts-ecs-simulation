@@ -12,7 +12,18 @@ export class Entity {
     constructor(uid: string, entityType: string, data: ModelData) {
         this.uid = uid;
         this.entityType = entityType;
+        const defaultData = this.getDefaultData();
+        for (const k in defaultData) {
+            data[k] = defaultData[k];
+        }
+        this.addComponents();
     }
+
+    getDefaultData(): ModelData {
+        return {}
+    }
+
+    addComponents() {}
 
     addComponent(component: Component) {
         this.components.push(component);

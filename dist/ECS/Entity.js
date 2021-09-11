@@ -8,7 +8,16 @@ var Entity = /** @class */ (function () {
         this.components = [];
         this.uid = uid;
         this.entityType = entityType;
+        var defaultData = this.getDefaultData();
+        for (var k in defaultData) {
+            data[k] = defaultData[k];
+        }
+        this.addComponents();
     }
+    Entity.prototype.getDefaultData = function () {
+        return {};
+    };
+    Entity.prototype.addComponents = function () { };
     Entity.prototype.addComponent = function (component) {
         this.components.push(component);
     };
