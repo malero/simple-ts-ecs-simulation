@@ -19,7 +19,7 @@ var Vector2D = /** @class */ (function () {
         this.y = y;
     }
     Vector2D.prototype.vectorBetween = function (vector) {
-        return new Vector2D(this.x - vector.x, this.y - vector.y);
+        return new Vector2D(vector.x - this.x, vector.y - this.y);
     };
     return Vector2D;
 }());
