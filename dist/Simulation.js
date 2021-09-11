@@ -95,7 +95,6 @@ var Simulation = /** @class */ (function (_super) {
     };
     Simulation.prototype.replayEntityFromKeyframe = function (keyFrame, entityId) {
         if (!keyFrame || !entityId) {
-            console.log('cannot replay', keyFrame, entityId);
             return;
         }
         var frame = this.getFrame(keyFrame, 0, true);

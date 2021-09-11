@@ -28,9 +28,6 @@ var Frame = /** @class */ (function () {
                 snapshot[key] = data[key];
             }
         }
-        else {
-            console.log('snapshot not found');
-        }
     };
     Frame.prototype.getSnapshot = function (entityId) {
         return this.snapshots[entityId];
