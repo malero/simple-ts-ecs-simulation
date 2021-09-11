@@ -95,7 +95,6 @@ export class Simulation extends EventDispatcher {
 
     public replayEntityFromKeyframe(keyFrame: number, entityId: TEventData) {
         if (!keyFrame || !entityId) {
-            console.log('cannot replay', keyFrame, entityId);
             return;
         }
         const frame = this.getFrame(keyFrame, 0, true);

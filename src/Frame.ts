@@ -32,8 +32,6 @@ export class Frame {
             for (const key in data) {
                 snapshot[key] = data[key];
             }
-        } else {
-            console.log('snapshot not found');
         }
     }
 
