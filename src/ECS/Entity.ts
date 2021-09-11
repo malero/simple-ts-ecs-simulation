@@ -9,7 +9,7 @@ export class Entity {
     public readonly uid: string;
     private readonly components: Component[] = [];
 
-    constructor(uid: string, entityType: string) {
+    constructor(uid: string, entityType: string, data: ModelData) {
         this.uid = uid;
         this.entityType = entityType;
     }
@@ -50,11 +50,11 @@ export class Entity {
         }
     }
 
-    public static constructEntity<T extends Entity = Entity>(name: string, uid: string | null = null): T {
+    public static constructEntity<T extends Entity = Entity>(name: string, data: ModelData, uid: string | null = null): T {
         if (uid === null)
             uid = uuid();
 
         const cls = Entity.entityRegistry[name];
-        return new cls(uid, name);
+        return new cls(uid, name, data);
     }
 }

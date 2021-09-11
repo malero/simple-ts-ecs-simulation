@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Entity = void 0;
 var utils_1 = require("../utils");
 var Entity = /** @class */ (function () {
-    function Entity(uid, entityType) {
+    function Entity(uid, entityType, data) {
         this.entityType = null;
         this.components = [];
         this.uid = uid;
@@ -44,12 +44,12 @@ var Entity = /** @class */ (function () {
             Entity.entityRegistry[name] = target;
         };
     };
-    Entity.constructEntity = function (name, uid) {
+    Entity.constructEntity = function (name, data, uid) {
         if (uid === void 0) { uid = null; }
         if (uid === null)
             uid = (0, utils_1.uuid)();
         var cls = Entity.entityRegistry[name];
-        return new cls(uid, name);
+        return new cls(uid, name, data);
     };
     Entity.entityRegistry = {};
     return Entity;
