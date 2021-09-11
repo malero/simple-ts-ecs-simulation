@@ -3,6 +3,7 @@ import {TEventData} from "../IEvent";
 import {ModelData} from "simple-ts-models/dist/ModelAbstract";
 
 export class Entity {
+    public static readonly entityRegistry: {[key: string]: any} = {};
     public readonly uid: string;
     private readonly components: Component[] = [];
 
@@ -37,6 +38,12 @@ export class Entity {
     setSnapshot(snapshot: ModelData): void {
         for (const c of this.components) {
             c.setData(snapshot);
+        }
+    }
+
+    public static register(name: string, setup: (() => void) | null = null) {
+        return function(target: any, _key: string | null = null) {
+            Entity.entityRegistry[name] = target;
         }
     }
 }

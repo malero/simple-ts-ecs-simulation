@@ -34,6 +34,14 @@ var Entity = /** @class */ (function () {
             c.setData(snapshot);
         }
     };
+    Entity.register = function (name, setup) {
+        if (setup === void 0) { setup = null; }
+        return function (target, _key) {
+            if (_key === void 0) { _key = null; }
+            Entity.entityRegistry[name] = target;
+        };
+    };
+    Entity.entityRegistry = {};
     return Entity;
 }());
 exports.Entity = Entity;

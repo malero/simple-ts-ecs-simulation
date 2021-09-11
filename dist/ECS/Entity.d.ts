@@ -2,6 +2,9 @@ import { Component } from "./Component";
 import { TEventData } from "../IEvent";
 import { ModelData } from "simple-ts-models/dist/ModelAbstract";
 export declare class Entity {
+    static readonly entityRegistry: {
+        [key: string]: any;
+    };
     readonly uid: string;
     private readonly components;
     constructor(uid: string);
@@ -11,4 +14,5 @@ export declare class Entity {
         [key: string]: TEventData;
     };
     setSnapshot(snapshot: ModelData): void;
+    static register(name: string, setup?: (() => void) | null): (target: any, _key?: string | null) => void;
 }
