@@ -1,6 +1,6 @@
 {
   "name": "simple-ts-ecs-simulation",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A simple ECS based Simulation framework",
   "keywords": [
     "typescript",
@@ -14,8 +14,7 @@
     "clean": "rm -rf ./dist/",
     "test": "karma start --single-run",
     "posttest": "codecov",
-    "sample": "rm -rf sample/dist/ && tsc -p sample/ && node sample/dist/sample/index.js",
-    "publish":"npm run build && npm publish"
+    "sample": "rm -rf sample/dist/ && tsc -p sample/ && node sample/dist/sample/index.js"
   },
   "license": "MIT",
   "dependencies": {

@@ -17,4 +17,8 @@ export class Vector2D {
         public y: number
     ) {
     }
+
+    vectorBetween(vector: Vector2D): Vector2D {
+        return new Vector2D(this.x - vector.x, this.y - vector.y);
+    }
 }
