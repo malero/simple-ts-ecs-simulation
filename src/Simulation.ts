@@ -67,7 +67,7 @@ export class Simulation extends EventDispatcher {
             system.tickFrame(this.currentFrame, this);
             for (const entityId in this.entities) {
                 const entity = this.entities[entityId];
-                system.tickEntity(entity);
+                system.tickEntity(this.currentFrame, this, entity);
             }
         }
 
@@ -111,7 +111,7 @@ export class Simulation extends EventDispatcher {
             for (const system of this.systems) {
                 system.tickReplay(_frame, this, entityId as string);
                 if (entity)
-                    system.tickEntity(entity);
+                    system.tickEntity(frame, this, entity);
             }
         }
     }

@@ -70,7 +70,7 @@ var Simulation = /** @class */ (function (_super) {
             system.tickFrame(this.currentFrame, this);
             for (var entityId in this.entities) {
                 var entity = this.entities[entityId];
-                system.tickEntity(entity);
+                system.tickEntity(this.currentFrame, this, entity);
             }
         }
         if (isKeyframe) {
@@ -111,7 +111,7 @@ var Simulation = /** @class */ (function (_super) {
                 var system = _a[_i];
                 system.tickReplay(_frame, this, entityId);
                 if (entity)
-                    system.tickEntity(entity);
+                    system.tickEntity(frame, this, entity);
             }
         }
     };
