@@ -18,7 +18,27 @@ export class Vector2D {
     ) {
     }
 
-    vectorBetween(vector: Vector2D): Vector2D {
+    public vectorBetween(vector: Vector2D): Vector2D {
         return new Vector2D(vector.x - this.x, vector.y - this.y);
+    }
+
+    public dot(vector: Vector2D): number {
+        return this.x * vector.x + this.y * vector.y;
+    }
+
+    public cross(vector: Vector2D): number {
+        return this.x * vector.x - this.y * vector.y;
+    }
+
+    public magnitude(): number {
+        return Math.sqrt(this.dot(this));
+    }
+
+    public divide(scalar: number): Vector2D {
+        return new Vector2D(this.x / scalar, this.y / scalar);
+    }
+
+    public normalize() {
+        return this.divide(this.magnitude());
     }
 }

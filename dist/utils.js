@@ -21,6 +21,21 @@ var Vector2D = /** @class */ (function () {
     Vector2D.prototype.vectorBetween = function (vector) {
         return new Vector2D(vector.x - this.x, vector.y - this.y);
     };
+    Vector2D.prototype.dot = function (vector) {
+        return this.x * vector.x + this.y * vector.y;
+    };
+    Vector2D.prototype.cross = function (vector) {
+        return this.x * vector.x - this.y * vector.y;
+    };
+    Vector2D.prototype.magnitude = function () {
+        return Math.sqrt(this.dot(this));
+    };
+    Vector2D.prototype.divide = function (scalar) {
+        return new Vector2D(this.x / scalar, this.y / scalar);
+    };
+    Vector2D.prototype.normalize = function () {
+        return this.divide(this.magnitude());
+    };
     return Vector2D;
 }());
 exports.Vector2D = Vector2D;
