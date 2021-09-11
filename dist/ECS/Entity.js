@@ -12,12 +12,12 @@ var Entity = /** @class */ (function () {
         for (var k in defaultData) {
             data[k] = defaultData[k];
         }
-        this.addComponents();
+        this.addComponents(data);
     }
     Entity.prototype.getDefaultData = function () {
         return {};
     };
-    Entity.prototype.addComponents = function () { };
+    Entity.prototype.addComponents = function (data) { };
     Entity.prototype.addComponent = function (component) {
         this.components.push(component);
     };

@@ -16,14 +16,14 @@ export class Entity {
         for (const k in defaultData) {
             data[k] = defaultData[k];
         }
-        this.addComponents();
+        this.addComponents(data);
     }
 
     getDefaultData(): ModelData {
         return {}
     }
 
-    addComponents() {}
+    addComponents(data: ModelData) {}
 
     addComponent(component: Component) {
         this.components.push(component);

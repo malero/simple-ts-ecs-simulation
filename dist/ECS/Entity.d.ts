@@ -10,7 +10,7 @@ export declare class Entity {
     private readonly components;
     constructor(uid: string, entityType: string, data: ModelData);
     getDefaultData(): ModelData;
-    addComponents(): void;
+    addComponents(data: ModelData): void;
     addComponent(component: Component): void;
     getComponent<T extends Component>(type: any): T | null;
     getSnapshot(): {
