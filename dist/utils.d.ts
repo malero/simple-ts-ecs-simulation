@@ -11,4 +11,6 @@ export declare class Vector2D {
     normalize(): Vector2D;
     get length(): number;
     distance(vector: Vector2D): number;
+    get radians(): number;
+    get rotation(): number;
 }

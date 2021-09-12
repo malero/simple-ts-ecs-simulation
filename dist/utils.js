@@ -46,6 +46,20 @@ var Vector2D = /** @class */ (function () {
     Vector2D.prototype.distance = function (vector) {
         return Math.abs(Math.sqrt(Math.pow((this.x - vector.x), 2) + Math.pow((this.y - vector.y), 2)));
     };
+    Object.defineProperty(Vector2D.prototype, "radians", {
+        get: function () {
+            return -Math.atan2(-this.y, this.x);
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Vector2D.prototype, "rotation", {
+        get: function () {
+            return this.radians / (180 * Math.PI);
+        },
+        enumerable: false,
+        configurable: true
+    });
     return Vector2D;
 }());
 exports.Vector2D = Vector2D;
