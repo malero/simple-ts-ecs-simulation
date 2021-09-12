@@ -50,11 +50,12 @@ export class Vector2D {
     }
 
     get radians() {
-        return -Math.atan2(-this.y, this.x);
+        return Math.atan2(this.y, this.x);
     }
 
     get rotation() {
-        return this.radians / (180 * Math.PI);
+        const degrees = 180 * this.radians / Math.PI;
+        return (360 + Math.round(degrees)) % 360;
     }
 
 }

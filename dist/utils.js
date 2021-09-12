@@ -48,14 +48,15 @@ var Vector2D = /** @class */ (function () {
     };
     Object.defineProperty(Vector2D.prototype, "radians", {
         get: function () {
-            return -Math.atan2(-this.y, this.x);
+            return Math.atan2(this.y, this.x);
         },
         enumerable: false,
         configurable: true
     });
     Object.defineProperty(Vector2D.prototype, "rotation", {
         get: function () {
-            return this.radians / (180 * Math.PI);
+            var degrees = 180 * this.radians / Math.PI;
+            return (360 + Math.round(degrees)) % 360;
         },
         enumerable: false,
         configurable: true

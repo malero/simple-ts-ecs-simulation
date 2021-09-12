@@ -14,7 +14,8 @@ export class Entity {
         this.entityType = entityType;
         const defaultData = this.getDefaultData();
         for (const k in defaultData) {
-            data[k] = defaultData[k];
+            if (data[k] === undefined)
+                data[k] = defaultData[k];
         }
         this.addComponents(data);
     }

@@ -10,7 +10,8 @@ var Entity = /** @class */ (function () {
         this.entityType = entityType;
         var defaultData = this.getDefaultData();
         for (var k in defaultData) {
-            data[k] = defaultData[k];
+            if (data[k] === undefined)
+                data[k] = defaultData[k];
         }
         this.addComponents(data);
     }
