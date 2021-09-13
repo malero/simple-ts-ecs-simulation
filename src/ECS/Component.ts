@@ -1,7 +1,5 @@
-import {field, Model} from "simple-ts-models";
-import {StringField} from "simple-ts-models/dist/fields/StringField";
+import {Model} from "simple-ts-models";
 
 export class Component extends Model {
 
 }
-

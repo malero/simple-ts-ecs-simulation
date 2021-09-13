@@ -8,5 +8,6 @@ export enum EEventAction {
     CREATE,
     ECHO,
     PURGE,
-    CONFIRM
+    CONFIRM,
+    UPDATE
 }

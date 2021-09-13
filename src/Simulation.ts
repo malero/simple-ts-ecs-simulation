@@ -25,7 +25,7 @@ export class Simulation extends EventDispatcher {
     protected readonly queuedEvents: IEvent[] = [];
     protected offset: number = 0;
 
-    public readonly entities: {[key: string]: Entity};
+    protected entities: {[key: string]: Entity};
     protected systems: System[];
 
     constructor(keyFrame: number = 0, frame: number = 0, public readonly authority = false) {
@@ -40,6 +40,24 @@ export class Simulation extends EventDispatcher {
 
     public addSystem(system: System) {
         this.systems.push(system);
+    }
+
+    public addEntity(entity: Entity) {
+        if (!this.entities[entity.uid]) {
+            this.entities[entity.uid] = entity;
+            this.trigger('entityAdded', entity);
+        }
+    }
+
+    public getEntity(uid: string): Entity {
+        return this.entities[uid];
+    }
+
+    public removeEntity(entity: Entity) {
+        if (this.entities[entity.uid]) {
+            delete this.entities[entity.uid];
+            this.trigger('entityRemoved', entity);
+        }
     }
 
     protected tick() {
@@ -102,6 +120,8 @@ export class Simulation extends EventDispatcher {
         const snapshot = frame.getSnapshot(entityId as string);
         if (entity && snapshot)
             entity.setSnapshot(snapshot);
+        else
+            return false; // Can't replay if we don't have a snapshot
 
         const numFrames: number | null = this.getFrameDifference(this._keyFrame, this._frame, keyFrame, 0);
         const index: number = this.getFrameIndex(frame.keyFrame, frame.frame);

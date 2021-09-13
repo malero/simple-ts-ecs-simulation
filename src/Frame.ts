@@ -1,6 +1,7 @@
 import {IEvent} from "./IEvent";
 import {TSimulationEventType} from "./ESimulationEventType";
 import {ModelData} from "simple-ts-models/dist/ModelAbstract";
+import {EEventAction} from "./constants";
 
 
 export class Frame {
@@ -19,7 +20,29 @@ export class Frame {
     }
 
     addEvent(bundle: IEvent) {
-        this.events.push(bundle);
+        let existingEvent: IEvent | null = null;
+        let index: number;
+
+        for (index = 0; index < this.events.length; index++) {
+            const event = this.events[index];
+            if (event.client_uid === bundle.client_uid || event.server_uid === bundle.server_uid) {
+                existingEvent = event;
+                break;
+            }
+        }
+
+        if (existingEvent) {
+            if (bundle.action === EEventAction.PURGE) {
+                this.events.splice(index, 1);
+            } else if (bundle.action === EEventAction.CONFIRM) {
+                existingEvent.server_uid = bundle.server_uid;
+                existingEvent.action = EEventAction.CONFIRM;
+            } else if (bundle.action === EEventAction.UPDATE) {
+                this.events[index] = bundle;
+            }
+        } else {
+            this.events.push(bundle);
+        }
     }
 
     addSnapshot(entityId: string, snapshot: ModelData) {
