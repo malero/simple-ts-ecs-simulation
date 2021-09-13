@@ -47,6 +47,21 @@ var Simulation = /** @class */ (function (_super) {
     Simulation.prototype.addSystem = function (system) {
         this.systems.push(system);
     };
+    Simulation.prototype.addEntity = function (entity) {
+        if (!this.entities[entity.uid]) {
+            this.entities[entity.uid] = entity;
+            this.trigger('entityAdded', entity);
+        }
+    };
+    Simulation.prototype.getEntity = function (uid) {
+        return this.entities[uid];
+    };
+    Simulation.prototype.removeEntity = function (entity) {
+        if (this.entities[entity.uid]) {
+            delete this.entities[entity.uid];
+            this.trigger('entityRemoved', entity);
+        }
+    };
     Simulation.prototype.tick = function () {
         var now = (new Date()).getTime();
         var nextFrame = this.getNextFrame();
@@ -102,6 +117,8 @@ var Simulation = /** @class */ (function (_super) {
         var snapshot = frame.getSnapshot(entityId);
         if (entity && snapshot)
             entity.setSnapshot(snapshot);
+        else
+            return false; // Can't replay if we don't have a snapshot
         var numFrames = this.getFrameDifference(this._keyFrame, this._frame, keyFrame, 0);
         var index = this.getFrameIndex(frame.keyFrame, frame.frame);
         var lastIndex = index + (numFrames || 0);

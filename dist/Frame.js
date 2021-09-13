@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Frame = void 0;
+var constants_1 = require("./constants");
 var Frame = /** @class */ (function () {
     function Frame(keyFrame, frame) {
         this.keyFrame = keyFrame;
@@ -16,7 +17,30 @@ var Frame = /** @class */ (function () {
         configurable: true
     });
     Frame.prototype.addEvent = function (bundle) {
-        this.events.push(bundle);
+        var existingEvent = null;
+        var index;
+        for (index = 0; index < this.events.length; index++) {
+            var event = this.events[index];
+            if (event.client_uid === bundle.client_uid || event.server_uid === bundle.server_uid) {
+                existingEvent = event;
+                break;
+            }
+        }
+        if (existingEvent) {
+            if (bundle.action === constants_1.EEventAction.PURGE) {
+                this.events.splice(index, 1);
+            }
+            else if (bundle.action === constants_1.EEventAction.CONFIRM) {
+                existingEvent.server_uid = bundle.server_uid;
+                existingEvent.action = constants_1.EEventAction.CONFIRM;
+            }
+            else if (bundle.action === constants_1.EEventAction.UPDATE) {
+                this.events[index] = bundle;
+            }
+        }
+        else {
+            this.events.push(bundle);
+        }
     };
     Frame.prototype.addSnapshot = function (entityId, snapshot) {
         this.snapshots[entityId] = snapshot;

@@ -12,5 +12,6 @@ var EEventAction;
     EEventAction[EEventAction["ECHO"] = 1] = "ECHO";
     EEventAction[EEventAction["PURGE"] = 2] = "PURGE";
     EEventAction[EEventAction["CONFIRM"] = 3] = "CONFIRM";
+    EEventAction[EEventAction["UPDATE"] = 4] = "UPDATE";
 })(EEventAction = exports.EEventAction || (exports.EEventAction = {}));
 //# sourceMappingURL=constants.js.map

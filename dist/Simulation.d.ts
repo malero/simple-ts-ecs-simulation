@@ -19,14 +19,17 @@ export declare class Simulation extends EventDispatcher {
     };
     protected readonly queuedEvents: IEvent[];
     protected offset: number;
-    readonly entities: {
+    protected entities: {
         [key: string]: Entity;
     };
     protected systems: System[];
     constructor(keyFrame?: number, frame?: number, authority?: boolean);
     addSystem(system: System): void;
+    addEntity(entity: Entity): void;
+    getEntity(uid: string): Entity;
+    removeEntity(entity: Entity): void;
     protected tick(): void;
-    replayEntityFromKeyframe(keyFrame: number, entityId: TEventData): void;
+    replayEntityFromKeyframe(keyFrame: number, entityId: TEventData): false | undefined;
     getNextFrame(): {
         frame: number;
         keyFrame: number;
