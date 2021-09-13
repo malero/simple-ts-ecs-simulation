@@ -13,4 +13,5 @@ export declare class Vector2D {
     distance(vector: Vector2D): number;
     get radians(): number;
     get rotation(): number;
+    rotate(ang: number): Vector2D;
 }

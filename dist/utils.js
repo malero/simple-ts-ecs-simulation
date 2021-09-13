@@ -61,6 +61,13 @@ var Vector2D = /** @class */ (function () {
         enumerable: false,
         configurable: true
     });
+    Vector2D.prototype.rotate = function (ang) {
+        ang = -ang * (Math.PI / 180);
+        var cos = Math.cos(ang);
+        var sin = Math.sin(ang);
+        return new Vector2D(Math.round(10000 * (this.x * cos - this.y * sin)) / 10000, Math.round(10000 * (this.x * sin + this.y * cos)) / 10000);
+    };
+    ;
     return Vector2D;
 }());
 exports.Vector2D = Vector2D;
