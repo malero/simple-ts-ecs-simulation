@@ -31,7 +31,7 @@ export declare class Simulation extends EventDispatcher {
     get entities(): Entity[];
     get entityIds(): string[];
     protected tick(): void;
-    replayEntityFromKeyframe(keyFrame: number, entityId: TEventData, force?: boolean): false | undefined;
+    replayEntityFromKeyframe(keyFrame: number, entityId: TEventData, force?: boolean): void;
     getNextFrame(): {
         frame: number;
         keyFrame: number;

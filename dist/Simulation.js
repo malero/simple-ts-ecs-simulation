@@ -140,8 +140,6 @@ var Simulation = /** @class */ (function (_super) {
         var snapshot = frame.getSnapshot(entityId);
         if (entity && snapshot)
             entity.setSnapshot(snapshot);
-        else if (!force)
-            return false; // Can't replay if we don't have a snapshot
         var numFrames = this.getFrameDifference(this._keyFrame, this._frame, keyFrame, 0);
         var index = this.getFrameIndex(frame.keyFrame, frame.frame);
         var lastIndex = index + (numFrames || 0);

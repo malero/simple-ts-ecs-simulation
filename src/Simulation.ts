@@ -136,8 +136,6 @@ export class Simulation extends EventDispatcher {
         const snapshot = frame.getSnapshot(entityId as string);
         if (entity && snapshot)
             entity.setSnapshot(snapshot);
-        else if (!force)
-            return false; // Can't replay if we don't have a snapshot
 
         const numFrames: number | null = this.getFrameDifference(this._keyFrame, this._frame, keyFrame, 0);
         const index: number = this.getFrameIndex(frame.keyFrame, frame.frame);
