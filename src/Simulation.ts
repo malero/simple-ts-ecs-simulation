@@ -25,14 +25,14 @@ export class Simulation extends EventDispatcher {
     protected readonly queuedEvents: IEvent[] = [];
     protected offset: number = 0;
 
-    protected entities: {[key: string]: Entity};
+    protected _entities: {[key: string]: Entity};
     protected systems: System[];
 
     constructor(keyFrame: number = 0, frame: number = 0, public readonly authority = false) {
         super();
         this._keyFrame = keyFrame;
         this._frame = frame;
-        this.entities = {};
+        this._entities = {};
         this.systems = [];
         this._timeLast = new Date().getTime();
         this.tick();
@@ -43,21 +43,37 @@ export class Simulation extends EventDispatcher {
     }
 
     public addEntity(entity: Entity) {
-        if (!this.entities[entity.uid]) {
-            this.entities[entity.uid] = entity;
+        if (!this._entities[entity.uid]) {
+            this._entities[entity.uid] = entity;
             this.trigger('entityAdded', entity);
         }
     }
 
     public getEntity(uid: string): Entity {
-        return this.entities[uid];
+        return this._entities[uid];
     }
 
     public removeEntity(entity: Entity) {
-        if (this.entities[entity.uid]) {
-            delete this.entities[entity.uid];
+        if (this._entities[entity.uid]) {
+            delete this._entities[entity.uid];
             this.trigger('entityRemoved', entity);
         }
+    }
+
+    public get entities(): Entity[] {
+        const entities: Entity[] = [];
+        for (const uid in this._entities) {
+            entities.push(this._entities[uid]);
+        }
+        return entities;
+    }
+
+    public get entityIds(): string[] {
+        const ids: string[] = [];
+        for (const uid in this._entities) {
+            ids.push(uid);
+        }
+        return ids;
     }
 
     protected tick() {
@@ -83,15 +99,15 @@ export class Simulation extends EventDispatcher {
 
         for (const system of this.systems) {
             system.tickFrame(this.currentFrame, this);
-            for (const entityId in this.entities) {
-                const entity = this.entities[entityId];
+            for (const entityId in this._entities) {
+                const entity = this._entities[entityId];
                 system.tickEntity(this.currentFrame, this, entity);
             }
         }
 
         if (isKeyframe) {
-            for (const entityId in this.entities) {
-                const entity = this.entities[entityId];
+            for (const entityId in this._entities) {
+                const entity = this._entities[entityId];
                 this.currentFrame.addSnapshot(entityId, entity.getSnapshot());
             }
         }
@@ -111,16 +127,16 @@ export class Simulation extends EventDispatcher {
         }
     }
 
-    public replayEntityFromKeyframe(keyFrame: number, entityId: TEventData) {
+    public replayEntityFromKeyframe(keyFrame: number, entityId: TEventData, force: boolean = false) {
         if (!keyFrame || !entityId) {
             return;
         }
         const frame = this.getFrame(keyFrame, 0, true);
-        const entity = this.entities[entityId as string];
+        const entity = this._entities[entityId as string];
         const snapshot = frame.getSnapshot(entityId as string);
         if (entity && snapshot)
             entity.setSnapshot(snapshot);
-        else
+        else if (!force)
             return false; // Can't replay if we don't have a snapshot
 
         const numFrames: number | null = this.getFrameDifference(this._keyFrame, this._frame, keyFrame, 0);
@@ -216,7 +232,7 @@ export class Simulation extends EventDispatcher {
         frame.addEvent(bundle);
 
         if (frameDiff === null || frameDiff > -1) {
-            this.replayEntityFromKeyframe(bundle.keyFrame - 1, bundle.data.entity_id);
+            this.replayEntityFromKeyframe(bundle.keyFrame - 1, bundle.data.entity_id, bundle.type === ESimulationEventType.CREATE_ENTITY);
         }
     }
 
@@ -263,9 +279,9 @@ export class Simulation extends EventDispatcher {
 
     public getEntitiesByType(type: any): Entity[] {
         const entities = [];
-        for (const uid in this.entities) {
-            if (this.entities[uid] instanceof type)
-                entities.push(this.entities[uid]);
+        for (const uid in this._entities) {
+            if (this._entities[uid] instanceof type)
+                entities.push(this._entities[uid]);
 
         }
         return entities;

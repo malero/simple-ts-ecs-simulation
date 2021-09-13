@@ -38,7 +38,7 @@ var Simulation = /** @class */ (function (_super) {
         _this.offset = 0;
         _this._keyFrame = keyFrame;
         _this._frame = frame;
-        _this.entities = {};
+        _this._entities = {};
         _this.systems = [];
         _this._timeLast = new Date().getTime();
         _this.tick();
@@ -48,20 +48,42 @@ var Simulation = /** @class */ (function (_super) {
         this.systems.push(system);
     };
     Simulation.prototype.addEntity = function (entity) {
-        if (!this.entities[entity.uid]) {
-            this.entities[entity.uid] = entity;
+        if (!this._entities[entity.uid]) {
+            this._entities[entity.uid] = entity;
             this.trigger('entityAdded', entity);
         }
     };
     Simulation.prototype.getEntity = function (uid) {
-        return this.entities[uid];
+        return this._entities[uid];
     };
     Simulation.prototype.removeEntity = function (entity) {
-        if (this.entities[entity.uid]) {
-            delete this.entities[entity.uid];
+        if (this._entities[entity.uid]) {
+            delete this._entities[entity.uid];
             this.trigger('entityRemoved', entity);
         }
     };
+    Object.defineProperty(Simulation.prototype, "entities", {
+        get: function () {
+            var entities = [];
+            for (var uid in this._entities) {
+                entities.push(this._entities[uid]);
+            }
+            return entities;
+        },
+        enumerable: false,
+        configurable: true
+    });
+    Object.defineProperty(Simulation.prototype, "entityIds", {
+        get: function () {
+            var ids = [];
+            for (var uid in this._entities) {
+                ids.push(uid);
+            }
+            return ids;
+        },
+        enumerable: false,
+        configurable: true
+    });
     Simulation.prototype.tick = function () {
         var now = (new Date()).getTime();
         var nextFrame = this.getNextFrame();
@@ -83,14 +105,14 @@ var Simulation = /** @class */ (function (_super) {
         for (var _i = 0, _a = this.systems; _i < _a.length; _i++) {
             var system = _a[_i];
             system.tickFrame(this.currentFrame, this);
-            for (var entityId in this.entities) {
-                var entity = this.entities[entityId];
+            for (var entityId in this._entities) {
+                var entity = this._entities[entityId];
                 system.tickEntity(this.currentFrame, this, entity);
             }
         }
         if (isKeyframe) {
-            for (var entityId in this.entities) {
-                var entity = this.entities[entityId];
+            for (var entityId in this._entities) {
+                var entity = this._entities[entityId];
                 this.currentFrame.addSnapshot(entityId, entity.getSnapshot());
             }
         }
@@ -108,16 +130,17 @@ var Simulation = /** @class */ (function (_super) {
             this.tickTimeout = setTimeout(this.tick.bind(this), tickQueue);
         }
     };
-    Simulation.prototype.replayEntityFromKeyframe = function (keyFrame, entityId) {
+    Simulation.prototype.replayEntityFromKeyframe = function (keyFrame, entityId, force) {
+        if (force === void 0) { force = false; }
         if (!keyFrame || !entityId) {
             return;
         }
         var frame = this.getFrame(keyFrame, 0, true);
-        var entity = this.entities[entityId];
+        var entity = this._entities[entityId];
         var snapshot = frame.getSnapshot(entityId);
         if (entity && snapshot)
             entity.setSnapshot(snapshot);
-        else
+        else if (!force)
             return false; // Can't replay if we don't have a snapshot
         var numFrames = this.getFrameDifference(this._keyFrame, this._frame, keyFrame, 0);
         var index = this.getFrameIndex(frame.keyFrame, frame.frame);
@@ -203,7 +226,7 @@ var Simulation = /** @class */ (function (_super) {
         }
         frame.addEvent(bundle);
         if (frameDiff === null || frameDiff > -1) {
-            this.replayEntityFromKeyframe(bundle.keyFrame - 1, bundle.data.entity_id);
+            this.replayEntityFromKeyframe(bundle.keyFrame - 1, bundle.data.entity_id, bundle.type === ESimulationEventType_1.ESimulationEventType.CREATE_ENTITY);
         }
     };
     Simulation.prototype.invalidateEvent = function (bundle) {
@@ -251,9 +274,9 @@ var Simulation = /** @class */ (function (_super) {
     });
     Simulation.prototype.getEntitiesByType = function (type) {
         var entities = [];
-        for (var uid in this.entities) {
-            if (this.entities[uid] instanceof type)
-                entities.push(this.entities[uid]);
+        for (var uid in this._entities) {
+            if (this._entities[uid] instanceof type)
+                entities.push(this._entities[uid]);
         }
         return entities;
     };
