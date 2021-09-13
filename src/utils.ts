@@ -58,4 +58,11 @@ export class Vector2D {
         return (360 + Math.round(degrees)) % 360;
     }
 
+    rotate(ang: number) {
+        ang = -ang * (Math.PI/180);
+        const cos = Math.cos(ang);
+        const sin = Math.sin(ang);
+        return new Vector2D(Math.round(10000*(this.x * cos - this.y * sin))/10000, Math.round(10000*(this.x * sin + this.y * cos))/10000);
+    };
+
 }
